@@ -109,6 +109,6 @@ public class MonteCarloParallelPlayer implements IPlayer {
 	
 	@Override
 	public String toString() {
-		return "Parallel Monte-Carlo Player";
+		return "Parallel Monte-Carlo Player ("+simulations+")";
 	}
 }

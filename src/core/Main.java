@@ -6,11 +6,11 @@ import core.logger.*;
 
 public class Main {
 
-	public static void main(String[] argss) throws Exception {
+	public static void main(String[] args) throws Exception {
 		
 		int rounds = 1; // default
 		
-		String[] args = {"-q", "-n", "10", "-p", "minmax", "4", "-p", "pmc", "10000"};
+//		String[] args = {"-g", "-n", "10", "-p", "random", "4", "-p", "novice", "10000"};
 		IPlayer[] players = new IPlayer[2];
 		ILogger logger = new VerboseLogger();
 		int playerCount = 0;
@@ -79,9 +79,11 @@ public class Main {
 		int[] results = new int[3];
 		long time = System.currentTimeMillis();
 		for (int i = 0; i < rounds; i++) {
-			System.out.print(i + "...");
-			if ((i+1) % 10 == 0) {
-				System.out.println();
+			if (!(logger instanceof GMLogger)) {
+				System.out.print(i + "...");
+				if ((i+1) % 10 == 0) {
+					System.out.println();
+				}				
 			}
 			Game game = new Game(players, logger);
 			int result = game.play();

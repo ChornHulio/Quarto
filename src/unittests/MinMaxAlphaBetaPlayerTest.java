@@ -1,12 +1,17 @@
 package unittests;
 
-import org.junit.Test;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
-import player.*;
-import player.evaluation.*;
-import core.*;
+import org.junit.Test;
+
+import player.MinMaxAlphaBetaPlayer;
+import player.MinMaxPlayer;
+import player.RandomPlayer;
+import player.evaluation.TestEvaluation;
+import core.Action;
+import core.Board;
+import core.Piece;
+import core.Set;
 
 public class MinMaxAlphaBetaPlayerTest {
 
@@ -46,9 +51,6 @@ public class MinMaxAlphaBetaPlayerTest {
 
 				assertEquals(minmaxAction.x, minmaxAlphaBetaAction.x);
 				assertEquals(minmaxAction.y, minmaxAlphaBetaAction.y);
-
-				Piece minmaxPiece = minmaxPlayer.choosePiece(board, set);
-				Piece minaxAlphaBetaPiece = minmaxAlphaBetaPlayer.choosePiece(board, set);
 				
 				randomPiece = randomPlayer.choosePiece(board, set);
 				set.remove(randomPiece);
