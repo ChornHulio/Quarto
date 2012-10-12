@@ -1,16 +1,21 @@
 package core;
-import player.*;
-import player.evaluation.TestEvaluation;
-import core.logger.*;
+import player.HumanPlayer;
+import player.IPlayer;
+import player.PlayerFactory;
+import core.logger.GMLogger;
+import core.logger.HumanOpponentLogger;
+import core.logger.ILogger;
+import core.logger.QuietLogger;
+import core.logger.VerboseLogger;
 
 
 public class Main {
 
-	public static void main(String[] args) throws Exception {
+	public static void main(String[] argss) throws Exception {
 		
 		int rounds = 1; // default
 		
-//		String[] args = {"-g", "-n", "10", "-p", "random", "4", "-p", "novice", "10000"};
+		String[] args = {"-q", "-n", "10", "-p", "random", "4", "-p", "minmax", "3"};
 		IPlayer[] players = new IPlayer[2];
 		ILogger logger = new VerboseLogger();
 		int playerCount = 0;
@@ -31,31 +36,7 @@ public class Main {
 		try{
 			for (int i = 0; i < args.length; i++) {
 				if (args[i].trim().equals("-p")) {
-					i++;
-					if (args[i].trim().equals("human")) {
-						players[playerCount++] = new HumanPlayer();
-					}
-					else if (args[i].trim().equals("random")) {
-						players[playerCount++] = new RandomPlayer();
-					}
-					else if (args[i].trim().equals("novice")) {
-						players[playerCount++] = new NovicePlayer();
-					}
-					else if (args[i].trim().equals("mc")) {
-						int simulations = Integer.parseInt(args[++i]);
-						players[playerCount++] = new MonteCarloPlayer(simulations);
-					}
-					else if (args[i].trim().equals("pmc")) {
-						int simulations = Integer.parseInt(args[++i]);
-						players[playerCount++] = new MonteCarloParallelPlayer(simulations);
-					}
-					else if (args[i].trim().equals("minmax")) {
-						int maxDepth = Integer.parseInt(args[++i]);
-//						players[playerCount++] = new MinMaxPlayer(maxDepth, new TestEvaluation());
-						//TODO: delete
-						players[playerCount++] = new MinMaxAlphaBetaPlayer(maxDepth, new TestEvaluation());
-//						break;
-					}
+					players[playerCount++] = PlayerFactory.createPlayer(args, ++i);
 				} else if (args[i].trim().equals("-n")) {
 					rounds = Integer.parseInt(args[++i]);
 				} else if (args[i].trim().equals("-q") || args[i].trim().equals("--quiet")) {
@@ -64,7 +45,7 @@ public class Main {
 					logger = new GMLogger();
 				} 
 			}
-			if (playerCount != 2) {
+			if (playerCount != 2 || players[0] == null || players[1] == null) {
 				throw new Exception();
 			}
 			for (IPlayer player : players) {
