@@ -12,5 +12,6 @@ public interface ILogger {
 	void logPiece(IPlayer player, Board board, Piece piece, Set set);
 	void logAction(IPlayer player, Action action);
 	void logGameOver(IPlayer player, int winner);
+	void logDebug(String str);
 	
 }

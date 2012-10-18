@@ -40,7 +40,11 @@ public class HumanOpponentLogger implements ILogger {
 		} else {
 			System.out.println(player + " ( " + winner + " ) " + " wins.");
 		}
-
+	}
+	
+	@Override
+	public void logDebug(String str) {
+		System.out.print(str);
 	}
 
 }

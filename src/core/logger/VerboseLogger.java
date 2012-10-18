@@ -33,4 +33,9 @@ public class VerboseLogger implements ILogger {
 
 	}
 
+	@Override
+	public void logDebug(String str) {
+		System.out.print(str);
+	}
+
 }
