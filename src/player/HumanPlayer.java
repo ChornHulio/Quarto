@@ -31,7 +31,6 @@ public class HumanPlayer implements IPlayer {
 		} catch (Exception e) {
 			System.out.println("Please enter number from 0 to " + (set.size() - 1));
 		}
-		
 		return set.get(pieceNumber);
 	}
 

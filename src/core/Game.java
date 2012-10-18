@@ -1,9 +1,12 @@
 package core;
 import java.util.ArrayList;
 import java.util.Random;
+import java.util.Scanner;
 
+import player.HumanPlayer;
 import player.IPlayer;
 import player.NovicePlayer;
+import core.logger.GMLogger;
 import core.logger.ILogger;
 import core.logger.QuietLogger;
 
@@ -30,18 +33,39 @@ public class Game {
 		this.logger = new QuietLogger();
 	}
 
+	//TODO: no exception on wrong move by human player
 	public int play() throws Exception {
-		int turnCount = 0;
+		int turn = 0;
+		Piece firstPiece = null;
+		if (logger instanceof GMLogger) {
+			String firstInput = new Scanner(System.in).nextLine();
+			if (!firstInput.trim().equals(".")){
+				firstPiece = Piece.stringToPeace(firstInput);
+				if (!(players[turn] instanceof HumanPlayer)) {
+					turn++;
+				}
+			} else {
+				if (players[turn] instanceof HumanPlayer) {
+					turn++;
+				}
+			}
+		}
 		while (true) {
-			logger.logBoard(players[turnCount % 2], board, set);
-			Piece piece = players[turnCount % 2].choosePiece(board.copy(), set.copy());
-			logger.logPiece(players[turnCount++ % 2], board, piece, set);
+			logger.logBoard(players[turn % 2], board, set);
+			Piece piece;
+			if (firstPiece != null) {
+				piece = firstPiece;
+				firstPiece = null;
+			} else {
+				piece = players[turn % 2].choosePiece(board.copy(), set.copy());
+			}
+			logger.logPiece(players[turn++ % 2], board, piece, set);
 			checkMove(piece);
-			Action action = players[turnCount % 2].makeMove(board.copy(), set.copy(), piece);
-			logger.logAction(players[turnCount % 2], action);
+			Action action = players[turn % 2].makeMove(board.copy(), set.copy(), piece);
+			logger.logAction(players[turn % 2], action);
 			checkMove(action);
-			if (gameOver(turnCount % 2)) {
-				logger.logGameOver(players[turnCount % 2], winner);
+			if (gameOver(turn % 2)) {
+				logger.logGameOver(players[turn % 2], winner);
 				return winner; // winner is set inside gameOver()
 			}
 		}
