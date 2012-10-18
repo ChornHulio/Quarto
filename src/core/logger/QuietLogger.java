@@ -20,5 +20,8 @@ public class QuietLogger implements ILogger {
 
 	@Override
 	public void logGameOver(IPlayer player, int winner) { }
+	
+	@Override
+	public void logDebug(String str) { }
 
 }
