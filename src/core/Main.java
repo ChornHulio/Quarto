@@ -7,19 +7,51 @@ import core.logger.HumanOpponentLogger;
 import core.logger.ILogger;
 import core.logger.QuietLogger;
 import core.logger.VerboseLogger;
+import java.util.Scanner;
 
 
 public class Main {
+	
+	private static int rounds = 1; // default
+	private static IPlayer[] players = new IPlayer[2];
+	private static ILogger logger = new VerboseLogger();
 
-	public static void main(String[] argss) throws Exception {
+	public static void main(String[] args) throws Exception {
 		
-		int rounds = 1; // default
+		// parse arguments or ask for it
+		// args = {"-q", "-n", "10", "-p", "random", "4", "-p", "minmax", "3"}; // for debugging porpuse
+		if(args.length > 0) {
+			parseArguments(args);
+		} else {
+			askForArguments();
+		}
 		
-		String[] args = {"-q", "-n", "10", "-p", "random", "4", "-p", "minmax", "3"};
-		IPlayer[] players = new IPlayer[2];
-		ILogger logger = new VerboseLogger();
-		int playerCount = 0;
-		String errorMessage = "Usage: -p PLAYER [parameters...] -p PLAYER [parameters...] [-n N] [-q]\n";
+		// play
+		int[] results = new int[3];
+		long time = System.currentTimeMillis();
+		for (int i = 0; i < rounds; i++) {
+			if (!(logger instanceof GMLogger)) {
+				System.out.print(i + "...");
+				if ((i+1) % 10 == 0) {
+					System.out.println();
+				}				
+			}
+			Game game = new Game(players, logger);
+			int result = game.play();
+			results[result]++;
+		}
+				
+		// printing the results
+		System.out.println("\nExecution time per game played: " + (System.currentTimeMillis() - time) / ((double)rounds * 1000) + "s");
+		System.out.println("******* results *******");
+		System.out.println(results[0] + "\t: " + players[0].toString());
+		System.out.println(results[1] + "\t: " + players[1].toString());
+		System.out.println(results[2] + "\t: " + "ties");
+	}
+	
+	static void parseArguments(String[] args) {
+ 		int playerCount = 0;
+ 		String errorMessage = "Usage: -p PLAYER [parameters...] -p PLAYER [parameters...] [-n N] [-q]\n";
 		errorMessage += "\t-n N\n";
 		errorMessage += "\t\tplay N games (default: 1)\n";
 		errorMessage += "\t-q, --quiet\n";
@@ -57,26 +89,48 @@ public class Main {
 			System.out.println(errorMessage);
 			System.exit(1);
 		}
-		int[] results = new int[3];
-		long time = System.currentTimeMillis();
-		for (int i = 0; i < rounds; i++) {
-			if (!(logger instanceof GMLogger)) {
-				System.out.print(i + "...");
-				if ((i+1) % 10 == 0) {
-					System.out.println();
-				}				
-			}
-			Game game = new Game(players, logger);
-			int result = game.play();
-			results[result]++;
-		}
-		System.out.println("\nExecution time per game played: " + (System.currentTimeMillis() - time) / ((double)rounds * 1000) + "s");
-		
-		// printing the results
-		System.out.println("******* results *******");
-		System.out.println(results[0] + "\t: " + players[0].toString());
-		System.out.println(results[1] + "\t: " + players[1].toString());
-		System.out.println(results[2] + "\t: " + "ties");
 	}
+	
+	private static void askForArguments() {
+		Scanner scanner = new Scanner( System.in );
+		
+		// rounds
+		System.out.println("How many rounds do you want to play?");
+		rounds = scanner.nextInt();
+		
+		// logger
+		System.out.println("Do you want debug outputs? (y/n)");
+		String quiet = scanner.next();
+		if(quiet.trim().equals("n") || quiet.trim().equals("no")) {
+			logger = new QuietLogger();
+ 		}
 
+		// choose players
+		int playerCount = 0;
+		while (true) {
+			boolean wrongChoice = false;
+			System.out.println("Choose a player: human, random, novice, mc, pmc, minmax");
+			String player = scanner.next().trim();
+			int secondArg = 0;
+			if (player.equals("mc") || player.equals("pmc")) {
+				System.out.println("How many Monte-Carlo simulations do you want?");
+				secondArg = scanner.nextInt();
+			} else if (player.trim().equals("minmax")) {
+				System.out.println("What max depth of the MinMax-Algorithm do you want?");
+				secondArg = scanner.nextInt();
+			}
+			String[] arg = {player, String.valueOf(secondArg)};
+			players[playerCount] = PlayerFactory.createPlayer(arg, 0);
+
+			if(players[playerCount] == null) {
+				System.out.println("You choose a wrong option. Do it again...");
+				wrongChoice = true;
+			}
+			if(!wrongChoice && playerCount == 1) {
+				break;
+			} else if (!wrongChoice) {
+				playerCount++;
+			}
+		}
+	}
 }
