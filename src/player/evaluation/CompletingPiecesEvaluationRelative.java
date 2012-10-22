@@ -37,8 +37,9 @@ public class CompletingPiecesEvaluationRelative implements IEvaluation{
 		}
 		return bestScore;
 	}
-	
-	private int evaluateBoard(Board board, Set set){
+
+	@Override
+	public int evaluateBoard(Board board, Set set){
 		return - almostCompletedRows(board, set);
 	}
 	

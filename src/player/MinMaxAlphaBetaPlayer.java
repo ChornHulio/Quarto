@@ -69,7 +69,7 @@ public class MinMaxAlphaBetaPlayer implements IPlayer {
 				}
 				current = 0;
 			} else if (depth == maxDepth) {
-				current = 0;
+				current = evaluation.evaluateBoard(board, set);
 			} else {
 				int opponentMax = -999;
 				for (int i = 0; i < set.size(); i++) {
@@ -118,7 +118,7 @@ public class MinMaxAlphaBetaPlayer implements IPlayer {
 				}
 				current = 0;
 			} else if (depth == maxDepth) {
-				current = 0;
+				current = evaluation.evaluateBoard(board, set);
 			} else {
 				int opponentMin = 999;
 				for (int i = 0; i < set.size(); i++) {

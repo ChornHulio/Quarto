@@ -1,25 +1,26 @@
 package core;
 
+import player.CopyOfMinMaxAlphaBetaPlayer;
 import player.IPlayer;
-import player.MinMaxPlayer;
+import player.MinMaxAlphaBetaPlayer;
 import player.evaluation.CompletingPiecesEvaluationAbsolute;
-import player.evaluation.CompletingPiecesEvaluationRelative;
 import core.logger.GMLogger;
 import core.logger.ILogger;
 import core.logger.QuietLogger;
 
 public class TestMain {
 
-	private static int rounds = 1000; // default
+	private static int rounds = 100; // default
 	private static IPlayer[] players = new IPlayer[2];
 	private static ILogger logger = new QuietLogger();
 //	private static ILogger logger = new VerboseLogger();
 
 	public static void main(String[] args) throws Exception {
 		int count = 0;
-		players[count++] = new MinMaxPlayer(2, new CompletingPiecesEvaluationAbsolute());
-		players[count++] = new MinMaxPlayer(2, new CompletingPiecesEvaluationRelative());
-//		players[count++] = new MinMaxAlphaBetaPlayer(2, new TestEvaluation());
+//		players[count++] = new MinMaxPlayer(2, new CompletingPiecesEvaluationAbsolute());
+//		players[count++] = new MinMaxPlayer(2, new CompletingPiecesEvaluationRelative());
+		players[count++] = new MinMaxAlphaBetaPlayer(1, new CompletingPiecesEvaluationAbsolute());
+		players[count++] = new CopyOfMinMaxAlphaBetaPlayer(1, new CompletingPiecesEvaluationAbsolute());
 //		players[count++] = new NovicePlayer();
 
 		// play

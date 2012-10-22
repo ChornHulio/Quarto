@@ -36,4 +36,9 @@ public class TestEvaluation implements IEvaluation {
 		}
 		return bestScore;
 	}
+
+	@Override
+	public int evaluateBoard(Board board, Set set) {
+		return 0;
+	}
 }
