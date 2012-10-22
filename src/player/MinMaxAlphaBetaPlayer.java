@@ -15,7 +15,7 @@ public class MinMaxAlphaBetaPlayer implements IPlayer {
 
 	final int minmaxStartingFromPiece = 8;
 	
-	final int monteCarloSimulations = 100;
+	final int monteCarloSimulations = 1000;
 
 	private Action bestAction;
 	private IEvaluation evaluation;
@@ -30,8 +30,8 @@ public class MinMaxAlphaBetaPlayer implements IPlayer {
 		if (set.size() <= 16 - minmaxStartingFromPiece && nextPieceToChoose != null) {
 			return nextPieceToChoose;
 		} else {
-//			return new MonteCarloParallelPlayer(monteCarloSimulations).choosePiece(board, set);
-			return new NovicePlayer().choosePiece(board, set); //TODO: mcp
+			return new MonteCarloParallelPlayer(monteCarloSimulations).choosePiece(board, set);
+//			return new NovicePlayer().choosePiece(board, set); //TODO: mcp
 //			return new RandomPlayer().choosePiece(board, set);
 		}
 	}
@@ -42,14 +42,14 @@ public class MinMaxAlphaBetaPlayer implements IPlayer {
 			max(board, set, piece, 0, -999, 999);
 			return bestAction;
 		} else {
-//			return new MonteCarloParallelPlayer(monteCarloSimulations).makeMove(board, set, piece);
-			return new NovicePlayer().makeMove(board, set, piece); //TODO: mcp
+			return new MonteCarloParallelPlayer(monteCarloSimulations).makeMove(board, set, piece);
+//			return new NovicePlayer().makeMove(board, set, piece); //TODO: mcp
 //			return new RandomPlayer().makeMove(board, set, piece);
 		}
 	}
 
 	private int max(Board board, Set set, Piece piece, int depth, int alpha, int beta) {
-		int max = Integer.MIN_VALUE;
+		int max = -999;
 		int current = max;
 		ArrayList<int[]> freePositions = board.getFreePositions();
 		for (int[] pos : freePositions) {
@@ -59,7 +59,8 @@ public class MinMaxAlphaBetaPlayer implements IPlayer {
 				if (depth == 0) {
 					bestAction = new Action(piece, pos[0], pos[1]);
 				}
-				return Integer.MAX_VALUE - 1;
+				max = 100;
+				return max;
 			} else if (set.isEmpty()) {
 				if (depth == 0) {
 				}
@@ -67,7 +68,7 @@ public class MinMaxAlphaBetaPlayer implements IPlayer {
 			} else if (depth == maxDepth) {
 				current = evaluation.evaluateBoard(board, set);
 			} else {
-				int opponentMax = Integer.MIN_VALUE;
+				int opponentMax = -999;
 				for (int i = 0; i < set.size(); i++) {
 					Piece p = set.get(i);
 					set.remove(p);
@@ -100,14 +101,15 @@ public class MinMaxAlphaBetaPlayer implements IPlayer {
 	}
 
 	private int min(Board board, Set set, Piece piece, int depth, int alpha, int beta) {
-		int min = Integer.MAX_VALUE;
+		int min = 999;
 		int current = min;
 		ArrayList<int[]> freePositions = board.getFreePositions();
 		for (int[] pos : freePositions) {
 			board.setPiece(piece, pos[0], pos[1]);
 			if (board.gameOver()) {
 				board.remove(pos[0], pos[1]);
-				return Integer.MIN_VALUE + 1;
+				min = -100;
+				return min;
 			} else if (set.isEmpty()) {
 				if (depth == 0) {
 				}
@@ -115,7 +117,7 @@ public class MinMaxAlphaBetaPlayer implements IPlayer {
 			} else if (depth == maxDepth) {
 				current = evaluation.evaluateBoard(board, set);
 			} else {
-				int opponentMin = Integer.MAX_VALUE;
+				int opponentMin = 999;
 				for (int i = 0; i < set.size(); i++) {
 					Piece p = set.get(i);
 					set.remove(p);

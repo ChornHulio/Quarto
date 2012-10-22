@@ -21,7 +21,7 @@ public class Main {
 	public static void main(String[] args) throws Exception {
 		
 		// parse arguments or ask for it
-		// args = {"-q", "-n", "10", "-p", "random", "4", "-p", "minmax", "3"}; // for debugging porpuse
+//		String[] args = {"-q", "-n", "10", "-p", "novice", "3", "-p", "minmax", "3"}; // for debugging porpuse
 		if(args.length > 0) {
 			parseArguments(args);
 		} else {

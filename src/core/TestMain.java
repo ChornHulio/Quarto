@@ -2,16 +2,15 @@ package core;
 
 import player.IPlayer;
 import player.MinMaxAlphaBetaPlayer;
+import player.NovicePlayer;
 import player.evaluation.CompletingPiecesEvaluationAbsolute;
-import player.evaluation.SimpleEvaluation;
-import player.evaluation.TestEvaluation;
 import core.logger.GMLogger;
 import core.logger.ILogger;
 import core.logger.QuietLogger;
 
 public class TestMain {
 
-	private static int rounds = 1000; // default
+	private static int rounds = 100; // default
 	private static IPlayer[] players = new IPlayer[2];
 	private static ILogger logger = new QuietLogger();
 //	private static ILogger logger = new VerboseLogger();
@@ -20,9 +19,9 @@ public class TestMain {
 		int count = 0;
 //		players[count++] = new MinMaxPlayer(2, new CompletingPiecesEvaluationAbsolute());
 //		players[count++] = new MinMaxPlayer(2, new CompletingPiecesEvaluationRelative());
-		players[count++] = new MinMaxAlphaBetaPlayer(2, new SimpleEvaluation());
-		players[count++] = new MinMaxAlphaBetaPlayer(2, new CompletingPiecesEvaluationAbsolute());
-//		players[count++] = new NovicePlayer();
+//		players[count++] = new MinMaxAlphaBetaPlayer(2, new SimpleEvaluation());
+		players[count++] = new MinMaxAlphaBetaPlayer(3, new CompletingPiecesEvaluationAbsolute());
+		players[count++] = new NovicePlayer();
 
 		// play
 		int[] results = new int[3];

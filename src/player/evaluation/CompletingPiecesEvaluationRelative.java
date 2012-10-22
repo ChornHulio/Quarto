@@ -11,7 +11,7 @@ public class CompletingPiecesEvaluationRelative implements IEvaluation{
 
 	@Override
 	public int evaluateBoard(Board board, Set set){
-		return - almostCompletedRows(board, set);
+		return almostCompletedRows(board, set);
 	}
 	
 	public int almostCompletedRows(Board board, Set set){
