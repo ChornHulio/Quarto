@@ -14,7 +14,7 @@ public class MinMaxAlphaBetaPlayer implements IPlayer {
 	Piece nextPieceToChoose;
 
 	final int minmaxStartingFromPiece = 8;
-
+	
 	final int monteCarloSimulations = 100;
 
 	private Action bestAction;
@@ -69,7 +69,7 @@ public class MinMaxAlphaBetaPlayer implements IPlayer {
 				}
 				current = 0;
 			} else if (depth == maxDepth) {
-				current = evaluation.getScore(board, set);
+				current = evaluation.getScore(board, set, piece);
 			} else {
 				int opponentMax = -999;
 				for (int i = 0; i < set.size(); i++) {
@@ -118,7 +118,7 @@ public class MinMaxAlphaBetaPlayer implements IPlayer {
 				}
 				current = 0;
 			} else if (depth == maxDepth) {
-				current = evaluation.getScore(board, set);
+				current = evaluation.getScore(board, set, piece);
 			} else {
 				int opponentMin = 999;
 				for (int i = 0; i < set.size(); i++) {

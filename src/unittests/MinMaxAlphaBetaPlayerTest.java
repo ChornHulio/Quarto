@@ -16,7 +16,7 @@ import core.Set;
 public class MinMaxAlphaBetaPlayerTest {
 
 	@Test
-	public void testEquality() throws Exception {
+	public void testEqualityMinmaxAlphabeta() throws Exception {
 		final int maxDepth = 4;
 		final int minmaxStartingFromPiece = 8;
 

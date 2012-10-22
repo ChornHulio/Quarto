@@ -4,6 +4,6 @@ import core.*;
 
 public interface IEvaluation {
 
-	int getScore(Board board, Set set);
+	int getScore(Board board, Set set, Piece piece);
 
 }

@@ -11,17 +11,13 @@ import core.Set;
 public class MinMaxPlayer implements IPlayer {
 
 	private int maxDepth;
-	Piece nextPieceToChoose;
 
-	final int minmaxStartingFromPiece = 8;
+	final int minmaxStartingFromPiece = 7;
 
 	final int monteCarloSimulations = 100;
 
 	private Action bestAction;
 	private IEvaluation evaluation;
-	
-	final int WIN = 100;
-	final int LOSS = -100;
 
 	public MinMaxPlayer(int maxDepth, IEvaluation evaluation) {
 		this.maxDepth = maxDepth;
@@ -30,8 +26,8 @@ public class MinMaxPlayer implements IPlayer {
 
 	@Override
 	public Piece choosePiece(Board board, Set set) throws Exception {
-		if (set.size() <= 16 - minmaxStartingFromPiece && nextPieceToChoose != null) {
-			return nextPieceToChoose;
+		if (set.size() <= 16 - minmaxStartingFromPiece && bestAction.piece != null) {
+			return bestAction.piece;
 		} else {
 //			return new MonteCarloParallelPlayer(monteCarloSimulations).choosePiece(board, set);
 			return new NovicePlayer().choosePiece(board, set); //TODO: mcp
@@ -42,96 +38,92 @@ public class MinMaxPlayer implements IPlayer {
 	@Override
 	public Action makeMove(Board board, Set set, Piece piece) throws Exception {
 		if (set.size() <= 16 - minmaxStartingFromPiece) {
+			bestAction = null;
 			max(board, set, piece, 0);
-			return bestAction;
+			return new Action(piece, bestAction.x, bestAction.y);
 		} else {
 //			return new MonteCarloParallelPlayer(monteCarloSimulations).makeMove(board, set, piece);
 			return new NovicePlayer().makeMove(board, set, piece); //TODO: mcp
 //			return new RandomPlayer().makeMove(board, set, piece);
 		}
 	}
-
-	private int max(Board board, Set set, Piece piece, int depth) {
-		int max = -999;
-		int current = max;
-		ArrayList<int[]> freePositions = board.getFreePositions();
-		for (int[] pos : freePositions) {
-			board.setPiece(piece, pos[0], pos[1]);
+	
+	private int max(Board board, Set set, Piece argPiece, int depth) {
+		if (depth == maxDepth) {
+			return evaluation.getScore(board, set, argPiece);
+		}
+		int max = Integer.MIN_VALUE;
+		int current;
+		ArrayList<Action> actions = followingActions(board, set);
+		for (Action action : actions) {
+			board.setPiece(argPiece, action.x, action.y);
+			boolean depthNotZero = set.remove(argPiece);
 			if (board.gameOver()) {
-				board.remove(pos[0], pos[1]);
+				if(depthNotZero) set.add(0, argPiece);
+				board.remove(action.x, action.y);
 				if (depth == 0) {
-					bestAction = new Action(piece, pos[0], pos[1]);
+					bestAction = action;
 				}
-				max = WIN;
-				return max;
+				return Integer.MAX_VALUE - 1;
 			} else if (set.isEmpty()) {
-				if (depth == 0) {
-				}
 				current = 0;
-			} else if (depth == maxDepth) {
-				current = evaluation.getScore(board, set);
 			} else {
-				int opponentMax = -999;
-				for (int i = 0; i < set.size(); i++) {
-					Piece p = set.get(i);
-					set.remove(p);
-					current = min(board, set, p, depth + 1);
-					set.add(i, p);
-					if (current > opponentMax) {
-						opponentMax = current;
-						if (depth == 0 && current > max) {
-							nextPieceToChoose = set.get(i);
-						}
-					}
-				}
-				current = opponentMax;
+				current = min(board, set, action.piece, depth + 1);
 			}
-			board.remove(pos[0], pos[1]);
+			if(depthNotZero) set.add(0, argPiece);
+			board.remove(action.x, action.y);
 			if (current > max) {
 				max = current;
 				if (depth == 0) {
-					bestAction = new Action(piece, pos[0], pos[1]);
+					bestAction = action;
 				}
 			}
 		}
 		return max;
 	}
 
-	private int min(Board board, Set set, Piece piece, int depth) {
-		int min = 999;
-		int current = min;
-		ArrayList<int[]> freePositions = board.getFreePositions();
-		for (int[] pos : freePositions) {
-			board.setPiece(piece, pos[0], pos[1]);
+
+	private int min(Board board, Set set, Piece argPiece, int depth) {
+		if (depth == maxDepth) {
+			return - evaluation.getScore(board, set, argPiece);
+		}
+		int min = Integer.MAX_VALUE;
+		int current;
+		ArrayList<Action> actions = followingActions(board, set);
+		for (Action action : actions) {
+			board.setPiece(argPiece, action.x, action.y);
+			set.remove(argPiece);
 			if (board.gameOver()) {
-				board.remove(pos[0], pos[1]);
-				min = LOSS;
-				return min;
+				set.add(0, argPiece);
+				board.remove(action.x, action.y);
+				return Integer.MIN_VALUE + 1;
 			} else if (set.isEmpty()) {
-				if (depth == 0) {
-				}
 				current = 0;
-			} else if (depth == maxDepth) {
-				current = evaluation.getScore(board, set);
 			} else {
-				int opponentMin = 999;
-				for (int i = 0; i < set.size(); i++) {
-					Piece p = set.get(i);
-					set.remove(p);
-					current = max(board, set, p, depth + 1);
-					set.add(i, p);
-					if (current < opponentMin) {
-						opponentMin = current;
-					}
-				}
-				current = opponentMin;
+				current = max(board, set, action.piece, depth + 1);
 			}
-			board.remove(pos[0], pos[1]);
+			set.add(0, argPiece);
+			board.remove(action.x, action.y);
 			if (current < min) {
 				min = current;
 			}
 		}
 		return min;
+	}
+	
+	ArrayList<Action> followingActions(Board board, Set set) {
+		ArrayList<Action> actions = new ArrayList<Action>();
+		ArrayList<int[]> freePositions = board.getFreePositions();
+		for (int[] pos : freePositions) {
+			if (set.isEmpty()) {
+				actions.add(new Action(null, pos[0], pos[1]));
+				break;
+			}
+			for (Piece piece : set.getPieces()) {
+				actions.add(new Action(piece, pos[0], pos[1]));
+			}
+		}
+		return actions;
 	}
 	
 	@Override

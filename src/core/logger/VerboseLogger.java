@@ -20,7 +20,7 @@ public class VerboseLogger implements ILogger {
 
 	@Override
 	public void logAction(IPlayer player, Action action) {
-		System.out.println(player + " makes move: " + action.piece + " to " + action);
+		System.out.println(player + " makes move: " + action.piece + " to " + action.x + " " + action.y);
 	}
 
 	@Override

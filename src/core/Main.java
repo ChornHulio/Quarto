@@ -9,7 +9,9 @@ import core.logger.QuietLogger;
 import core.logger.VerboseLogger;
 import java.util.Scanner;
 
-
+//TODO: human Player: reask if input wrong
+//TODO: pos: "1\n" is wrongly considered "01"
+//TODO: rewrite verbose logger for human player
 public class Main {
 	
 	private static int rounds = 1; // default
@@ -36,6 +38,7 @@ public class Main {
 					System.out.println();
 				}				
 			}
+			//TODO: switch positions after each game
 			Game game = new Game(players, logger);
 			int result = game.play();
 			results[result]++;
