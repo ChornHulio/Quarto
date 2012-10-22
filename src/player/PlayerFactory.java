@@ -1,6 +1,6 @@
 package player;
 
-import player.evaluation.TestEvaluation;
+import player.evaluation.CompletingPiecesEvaluationRelative;
 
 public class PlayerFactory {
 
@@ -24,7 +24,7 @@ public class PlayerFactory {
 		}
 		else if (args[i].trim().equals("minmax")) {
 			int maxDepth = Integer.parseInt(args[++i]);
-			return new MinMaxAlphaBetaPlayer(maxDepth, new TestEvaluation());
+			return new MinMaxAlphaBetaPlayer(maxDepth, new CompletingPiecesEvaluationRelative());
 		}
 		return null;
 	}

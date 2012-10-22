@@ -19,9 +19,6 @@ public class MinMaxAlphaBetaPlayer implements IPlayer {
 
 	private Action bestAction;
 	private IEvaluation evaluation;
-	
-	final int WIN = 100;
-	final int LOSS = -100;
 
 	public MinMaxAlphaBetaPlayer(int maxDepth, IEvaluation evaluation) {
 		this.maxDepth = maxDepth;
@@ -52,7 +49,7 @@ public class MinMaxAlphaBetaPlayer implements IPlayer {
 	}
 
 	private int max(Board board, Set set, Piece piece, int depth, int alpha, int beta) {
-		int max = -999;
+		int max = Integer.MIN_VALUE;
 		int current = max;
 		ArrayList<int[]> freePositions = board.getFreePositions();
 		for (int[] pos : freePositions) {
@@ -62,8 +59,7 @@ public class MinMaxAlphaBetaPlayer implements IPlayer {
 				if (depth == 0) {
 					bestAction = new Action(piece, pos[0], pos[1]);
 				}
-				max = WIN;
-				return max;
+				return Integer.MAX_VALUE - 1;
 			} else if (set.isEmpty()) {
 				if (depth == 0) {
 				}
@@ -71,7 +67,7 @@ public class MinMaxAlphaBetaPlayer implements IPlayer {
 			} else if (depth == maxDepth) {
 				current = evaluation.evaluateBoard(board, set);
 			} else {
-				int opponentMax = -999;
+				int opponentMax = Integer.MIN_VALUE;
 				for (int i = 0; i < set.size(); i++) {
 					Piece p = set.get(i);
 					set.remove(p);
@@ -104,15 +100,14 @@ public class MinMaxAlphaBetaPlayer implements IPlayer {
 	}
 
 	private int min(Board board, Set set, Piece piece, int depth, int alpha, int beta) {
-		int min = 999;
+		int min = Integer.MAX_VALUE;
 		int current = min;
 		ArrayList<int[]> freePositions = board.getFreePositions();
 		for (int[] pos : freePositions) {
 			board.setPiece(piece, pos[0], pos[1]);
 			if (board.gameOver()) {
 				board.remove(pos[0], pos[1]);
-				min = LOSS;
-				return min;
+				return Integer.MIN_VALUE + 1;
 			} else if (set.isEmpty()) {
 				if (depth == 0) {
 				}
@@ -120,7 +115,7 @@ public class MinMaxAlphaBetaPlayer implements IPlayer {
 			} else if (depth == maxDepth) {
 				current = evaluation.evaluateBoard(board, set);
 			} else {
-				int opponentMin = 999;
+				int opponentMin = Integer.MAX_VALUE;
 				for (int i = 0; i < set.size(); i++) {
 					Piece p = set.get(i);
 					set.remove(p);
