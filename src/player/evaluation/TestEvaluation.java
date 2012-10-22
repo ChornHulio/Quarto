@@ -21,7 +21,7 @@ public class TestEvaluation implements IEvaluation {
 				if (depthNotZero)
 					set.add(0, piece);
 				board.remove(pos[0], pos[1]);
-				return Integer.MAX_VALUE;
+				return Integer.MAX_VALUE - 1;
 			} else if (set.isEmpty()) {
 				current = 0;
 			} else {

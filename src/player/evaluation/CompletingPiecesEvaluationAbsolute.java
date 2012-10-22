@@ -7,7 +7,7 @@ import core.Board;
 import core.Piece;
 import core.Set;
 
-public class SimpleEvaluation implements IEvaluation{
+public class CompletingPiecesEvaluationAbsolute implements IEvaluation{
 
 	@Override
 	public int getScore(Board board, Set set, Piece piece) {
@@ -39,10 +39,10 @@ public class SimpleEvaluation implements IEvaluation{
 	}
 	
 	private int evaluateBoard(Board board, Set set){
-		return - almostCompletedRows(board);
+		return - almostCompletedRows(board, set);
 	}
 	
-	public int almostCompletedRows(Board board){
+	public int almostCompletedRows(Board board, Set set){
 		ArrayList<Piece> row;
 		int almostCompletedRows = 0;
 		for (int i = 0; i < 4; i++) {
@@ -50,7 +50,7 @@ public class SimpleEvaluation implements IEvaluation{
 			for (int j = 0; j < 4; j++) {
 				row.add(board.get(j, i)); // rows
 			}
-			almostCompletedRows += sameAttributes(row);
+			almostCompletedRows += completingPieces(row, set);
 		}
 
 		for (int i = 0; i < 4; i++) {
@@ -58,7 +58,7 @@ public class SimpleEvaluation implements IEvaluation{
 			for (int j = 0; j < 4; j++) {
 				row.add(board.get(i, j)); // columns
 			}
-			almostCompletedRows += sameAttributes(row);
+			almostCompletedRows += completingPieces(row, set);
 		}
 		
 
@@ -66,22 +66,22 @@ public class SimpleEvaluation implements IEvaluation{
 		for (int i = 0; i < 4; i++) {
 			row.add(board.get(i, i)); // 1. diagonal
 		}
-		almostCompletedRows += sameAttributes(row);
+		almostCompletedRows += completingPieces(row, set);
 		
 		row = new ArrayList<Piece>();
 		for (int i = 0; i < 4; i++) {
 			row.add(board.get(3-i, i)); // 2. diagonal
 		}
-		almostCompletedRows += sameAttributes(row);
+		almostCompletedRows += completingPieces(row, set);
 		return almostCompletedRows;
 	}
 	
-	private int sameAttributes(ArrayList<Piece> row){
+	private int completingPieces(ArrayList<Piece> row, Set set){
 		row.removeAll(Collections.singleton(null)); // remove all null-entries
 		if (row.size() != 3) {
 			return 0;
 		}
-		int sameAttributes = 0;
+		int completingPieces = 0;
 		for (int i = 0; i < 4; i++) {
 			int count = 0;
 			for (Piece piece : row) {
@@ -93,9 +93,33 @@ public class SimpleEvaluation implements IEvaluation{
 				}
 			}
 			if (Math.abs(count) == 3) {
-				sameAttributes++;
+				for (Piece piece : set.getPieces()) {
+					if(piece.getAttributes()[i] == row.get(0).getAttributes()[i]) {
+						completingPieces++;
+					}
+				}
 			}
 		}
-		return sameAttributes;
+		return completingPieces;
+	}
+	
+	public static void main(String[] args) {
+
+		Board board = new Board();
+		board.setPiece(Piece.stringToPeace("B"), 1, 0);
+		board.setPiece(Piece.stringToPeace("R*"), 2, 0);
+		board.setPiece(Piece.stringToPeace("(B*)"), 3, 0);
+		
+		Set set = new Set();
+		set.remove(Piece.stringToPeace("B"));
+		set.remove(Piece.stringToPeace("R*"));
+		set.remove(Piece.stringToPeace("(B*)"));
+
+		Piece piece = Piece.stringToPeace("(b)");
+		set.remove(piece);
+		CompletingPiecesEvaluationAbsolute eval = new CompletingPiecesEvaluationAbsolute();
+		System.out.println(board);
+		System.out.println(set);
+		System.out.println(eval.almostCompletedRows(board, set));
 	}
 }

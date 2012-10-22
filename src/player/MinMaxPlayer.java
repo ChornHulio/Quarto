@@ -12,7 +12,7 @@ public class MinMaxPlayer implements IPlayer {
 
 	private int maxDepth;
 
-	final int minmaxStartingFromPiece = 7;
+	final int minmaxStartingFromPiece = 8;
 
 	final int monteCarloSimulations = 100;
 
@@ -162,10 +162,10 @@ public class MinMaxPlayer implements IPlayer {
 		
 		
 		Board board = new Board();
-		board.setPiece(Piece.stringToPeace("(b*)"), 0, 0);
-		board.setPiece(Piece.stringToPeace("r"), 1, 0);
+		board.setPiece(Piece.stringToPeace("(b*)"), 3, 0);
+//		board.setPiece(Piece.stringToPeace("r"), 1, 0);
 		board.setPiece(Piece.stringToPeace("B"), 2, 0);
-		board.setPiece(Piece.stringToPeace("(r)"), 3, 0);
+		board.setPiece(Piece.stringToPeace("(r)"), 1, 2);
 		
 		board.setPiece(Piece.stringToPeace("(B*)"), 0, 1);
 		board.setPiece(Piece.stringToPeace("R*"), 2, 1);
@@ -176,10 +176,11 @@ public class MinMaxPlayer implements IPlayer {
 
 		board.setPiece(Piece.stringToPeace("(R)"), 0, 3);
 		board.setPiece(Piece.stringToPeace("(r*)"), 2, 3);
+//		board.setPiece(Piece.stringToPeace("(R*)"), 3, 2);
 		
 		Set set = new Set();
 		set.remove(Piece.stringToPeace("(b*)"));
-		set.remove(Piece.stringToPeace("r"));
+//		set.remove(Piece.stringToPeace("r"));
 		set.remove(Piece.stringToPeace("B"));
 		set.remove(Piece.stringToPeace("(r)"));
 		
@@ -192,19 +193,33 @@ public class MinMaxPlayer implements IPlayer {
 		
 		set.remove(Piece.stringToPeace("(R)"));
 		set.remove(Piece.stringToPeace("(r*)"));
+//		set.remove(Piece.stringToPeace("(R*)"));
 
 		Piece piece = Piece.stringToPeace("(b)");
 		set.remove(piece);
-		MinMaxPlayer player = new MinMaxPlayer(2, new TestEvaluation());
+		MinMaxPlayer player1 = new MinMaxPlayer(3, new TestEvaluation());
+		MinMaxAlphaBetaPlayer player2 = new MinMaxAlphaBetaPlayer(3, new TestEvaluation());
 		
 		System.out.println(board);
-		Action action = player.makeMove(board, set, piece);
-		board.setPiece(piece, action.x, action.y);
-		set.remove(piece);
+		Action action1 = player1.makeMove(board, set, piece);
+		Action action2 = player2.makeMove(board, set, piece);
+		System.out.println(player1+ ": " +action1);
+		System.out.println(player2+ ": " +action2);
+
+		board.setPiece(Piece.stringToPeace("(b)"), action1.x, action1.y);
 		System.out.println(board);
-		System.out.println(player + " chooses from: " + set);
-		Piece piece2 = player.choosePiece(board, set);
-		System.out.println(piece2);
+		System.out.println(set);
+		Piece piece1 = player1.choosePiece(board, set);
+		Piece piece2 = player2.choosePiece(board, set);
+		System.out.println(player1+ ": " +piece1);
+		System.out.println(player2+ ": " +piece2);
+
+//		board.setPiece(piece, action.x, action.y);
+//		set.remove(piece);
+//		System.out.println(board);
+//		System.out.println(player + " chooses from: " + set);
+//		Piece piece2 = player.choosePiece(board, set);
+//		System.out.println(piece2);
 		
 	}
 
