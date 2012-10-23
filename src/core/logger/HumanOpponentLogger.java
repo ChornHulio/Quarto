@@ -29,8 +29,6 @@ public class HumanOpponentLogger implements ILogger {
 
 	@Override
 	public void logAction(IPlayer player, Action action) {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

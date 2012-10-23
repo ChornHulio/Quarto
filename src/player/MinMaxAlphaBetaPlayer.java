@@ -13,7 +13,7 @@ public class MinMaxAlphaBetaPlayer implements IPlayer {
 	private int maxDepth;
 	Piece nextPieceToChoose;
 
-	final int minmaxStartingFromPiece = 8;
+	final int minmaxStartingFromPiece = 7;
 	
 	final int monteCarloSimulations = 1000;
 
@@ -30,9 +30,8 @@ public class MinMaxAlphaBetaPlayer implements IPlayer {
 		if (set.size() <= 16 - minmaxStartingFromPiece && nextPieceToChoose != null) {
 			return nextPieceToChoose;
 		} else {
-			return new MonteCarloParallelPlayer(monteCarloSimulations).choosePiece(board, set);
-//			return new NovicePlayer().choosePiece(board, set); //TODO: mcp
-//			return new RandomPlayer().choosePiece(board, set);
+//			return new MonteCarloParallelPlayer(monteCarloSimulations).choosePiece(board, set);
+			return new NovicePlayer().choosePiece(board, set); 
 		}
 	}
 	
@@ -42,9 +41,8 @@ public class MinMaxAlphaBetaPlayer implements IPlayer {
 			max(board, set, piece, 0, -999, 999);
 			return bestAction;
 		} else {
-			return new MonteCarloParallelPlayer(monteCarloSimulations).makeMove(board, set, piece);
-//			return new NovicePlayer().makeMove(board, set, piece); //TODO: mcp
-//			return new RandomPlayer().makeMove(board, set, piece);
+//			return new MonteCarloParallelPlayer(monteCarloSimulations).makeMove(board, set, piece);
+			return new NovicePlayer().makeMove(board, set, piece); 
 		}
 	}
 

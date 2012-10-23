@@ -4,14 +4,12 @@ import player.IPlayer;
 import player.PlayerFactory;
 import core.logger.GMLogger;
 import core.logger.HumanOpponentLogger;
+import core.logger.HumanVsHumanLogger;
 import core.logger.ILogger;
 import core.logger.QuietLogger;
 import core.logger.VerboseLogger;
 import java.util.Scanner;
 
-//TODO: human Player: reask if input wrong
-//TODO: pos: "1\n" is wrongly considered "01"
-//TODO: rewrite verbose logger for human player
 public class Main {
 	
 	private static int rounds = 1; // default
@@ -20,8 +18,8 @@ public class Main {
 
 	public static void main(String[] args) throws Exception {
 		
+		//String[] args = {"-q", "-n", "10", "-p", "human", "3", "-p", "novice", "3"}; // for debugging porpuse
 		// parse arguments or ask for it
-//		String[] args = {"-q", "-n", "10", "-p", "novice", "3", "-p", "minmax", "3"}; // for debugging porpuse
 		if(args.length > 0) {
 			parseArguments(args);
 		} else {
@@ -32,16 +30,22 @@ public class Main {
 		int[] results = new int[3];
 		long time = System.currentTimeMillis();
 		for (int i = 0; i < rounds; i++) {
-			if (!(logger instanceof GMLogger)) {
+			if (!(logger instanceof GMLogger) && !(logger instanceof HumanOpponentLogger) && !(logger instanceof VerboseLogger)) {
 				System.out.print(i + "...");
 				if ((i+1) % 10 == 0) {
 					System.out.println();
 				}				
 			}
-			//TODO: switch positions after each game
 			Game game = new Game(players, logger);
 			int result = game.play();
 			results[result]++;
+			// The first player who makes the move is preferred, so you have to switch the players after each round
+			IPlayer tmpPlayer = players[0];
+			players[0] = players[1];
+			players[1] = tmpPlayer;
+			int tmpResult = results[0];
+			results[0] = results[1];
+			results[1] = tmpResult;
 		}
 				
 		// printing the results
@@ -87,6 +91,9 @@ public class Main {
 				if (player instanceof HumanPlayer && !(logger instanceof GMLogger)) {
 					logger = new HumanOpponentLogger();
 				}
+			}
+			if ((players[0] instanceof HumanPlayer) && (players[1] instanceof HumanPlayer)) {
+				logger = new HumanVsHumanLogger();
 			}
 		} catch(Exception e){
 			System.out.println(errorMessage);
@@ -134,6 +141,15 @@ public class Main {
 			} else if (!wrongChoice) {
 				playerCount++;
 			}
+		}
+
+		for (IPlayer player : players) {
+			if (player instanceof HumanPlayer && !(logger instanceof GMLogger)) {
+				logger = new HumanOpponentLogger();
+			}
+		}
+		if ((players[0] instanceof HumanPlayer) && (players[1] instanceof HumanPlayer)) {
+			logger = new HumanVsHumanLogger();
 		}
 	}
 }

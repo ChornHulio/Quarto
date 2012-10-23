@@ -33,7 +33,6 @@ public class Game {
 		this.logger = new QuietLogger();
 	}
 
-	//TODO: no exception on wrong move by human player
 	public int play() throws Exception {
 		int turn = 0;
 		Piece firstPiece = null;
