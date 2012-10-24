@@ -15,7 +15,6 @@
   <graph edgedefault="directed" id="G">
     <data key="d7"/>
     <node id="n0">
-      <data key="d5"/>
       <data key="d6">
         <y:ImageNode>
           <y:Geometry height="332.0" width="373.0" x="163.5" y="99.0"/>
@@ -27,7 +26,6 @@
       </data>
     </node>
     <node id="n1">
-      <data key="d5"/>
       <data key="d6">
         <y:ImageNode>
           <y:Geometry height="67.0" width="72.0" x="268.0" y="270.5"/>
@@ -39,7 +37,6 @@
       </data>
     </node>
     <node id="n2">
-      <data key="d5"/>
       <data key="d6">
         <y:ImageNode>
           <y:Geometry height="67.0" width="72.0" x="359.0" y="270.5"/>
@@ -51,7 +48,6 @@
       </data>
     </node>
     <node id="n3">
-      <data key="d5"/>
       <data key="d6">
         <y:ImageNode>
           <y:Geometry height="67.0" width="72.0" x="445.0" y="270.5"/>
@@ -63,7 +59,6 @@
       </data>
     </node>
     <node id="n4">
-      <data key="d5"/>
       <data key="d6">
         <y:ImageNode>
           <y:Geometry height="67.0" width="72.0" x="445.0" y="350.5"/>
@@ -75,7 +70,6 @@
       </data>
     </node>
     <node id="n5">
-      <data key="d5"/>
       <data key="d6">
         <y:ImageNode>
           <y:Geometry height="67.0" width="72.0" x="445.0" y="113.5"/>
@@ -87,10 +81,9 @@
       </data>
     </node>
     <node id="n6">
-      <data key="d5"/>
       <data key="d6">
         <y:ImageNode>
-          <y:Geometry height="67.0" width="72.0" x="180.0" y="113.5"/>
+          <y:Geometry height="67.0" width="72.0" x="359.0" y="192.0"/>
           <y:Fill color="#CCCCFF" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="sandwich" modelPosition="s" textColor="#000000" visible="true" width="4.0" x="34.0" y="71.0"/>
@@ -99,10 +92,9 @@
       </data>
     </node>
     <node id="n7">
-      <data key="d5"/>
       <data key="d6">
         <y:ImageNode>
-          <y:Geometry height="67.0" width="72.0" x="268.0" y="113.5"/>
+          <y:Geometry height="67.0" width="72.0" x="180.0" y="113.5"/>
           <y:Fill color="#CCCCFF" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="sandwich" modelPosition="s" textColor="#000000" visible="true" width="4.0" x="34.0" y="71.0"/>
@@ -111,7 +103,6 @@
       </data>
     </node>
     <node id="n8">
-      <data key="d5"/>
       <data key="d6">
         <y:ImageNode>
           <y:Geometry height="67.0" width="72.0" x="180.0" y="350.5"/>
@@ -123,7 +114,6 @@
       </data>
     </node>
     <node id="n9">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="ShinyPlateNode">
           <y:Geometry height="30.0" width="30.0" x="541.5" y="439.0"/>
@@ -141,7 +131,6 @@
       </data>
     </node>
     <node id="n10">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="ShinyPlateNode">
           <y:Geometry height="30.0" width="30.0" x="123.0" y="61.0"/>
@@ -159,7 +148,6 @@
       </data>
     </node>
     <node id="n11">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="ShinyPlateNode">
           <y:Geometry height="30.0" width="30.0" x="120.0" y="290.5"/>
@@ -177,7 +165,6 @@
       </data>
     </node>
     <node id="n12">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="ShinyPlateNode">
           <y:Geometry height="30.0" width="30.0" x="547.0" y="290.5"/>
@@ -195,7 +182,6 @@
       </data>
     </node>
     <node id="n13">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="ShinyPlateNode">
           <y:Geometry height="30.0" width="30.0" x="466.0" y="447.5"/>
@@ -213,7 +199,6 @@
       </data>
     </node>
     <node id="n14">
-      <data key="d5"/>
       <data key="d6">
         <y:GenericNode configuration="ShinyPlateNode">
           <y:Geometry height="30.0" width="30.0" x="466.0" y="53.5"/>
@@ -231,7 +216,6 @@
       </data>
     </node>
     <edge id="e0" source="n10" target="n9">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -242,7 +226,6 @@
       </data>
     </edge>
     <edge id="e1" source="n12" target="n11">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
@@ -253,7 +236,6 @@
       </data>
     </edge>
     <edge id="e2" source="n13" target="n14">
-      <data key="d9"/>
       <data key="d10">
         <y:PolyLineEdge>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
