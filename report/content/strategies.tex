@@ -8,19 +8,19 @@ In this section the players' strategies are briefly described. For the whole doc
 \section{Random Player}
 The most trivial player. Performs his actions randomly with only one restriction: He can't make a move on a taken cell and he can't select a piece that has already been chosen.
 \section{Novice Player}
-Acts the same way as Random Player does, bit in cases, where he can make a move in order to win, he will make this move. The same applies to the chosen a piece, as he won't select a piece for his opponent that might make the opponent win with only one move. If there are no such pieces left, he chooses a piece randomly.
+Acts the same way as Random Player does, but in cases, where he can make a move in order to win, he will make this move. The same applies to the chosen a piece, as he won't select a piece for his opponent that might make the opponent win with only one move. If there are no such pieces left, he chooses a piece randomly.
 \section{Monte Carlo Player}
-Every time this player has to perform an action, he simulates hundreds of games for each possible action he can perform. He chooses the action which has led to the most wins during the simulations. Usually, Monte Carlo simulations are totally random, but we used the Novice Player for the simulations instead. To speed the simulations up, they are performed parallely.
+Every time this player has to perform an action, he simulates hundreds of games for each possible action he can perform. He chooses the action which has led to the most wins during the simulations. Usually, Monte Carlo simulations are totally random, but we used the Novice Player for the simulations instead. To speed the simulations up, they are performed in parallel.
 \section{MinMax-D Player}
-The MinMax-D Player looks $D$ actions into future. One action means that only one player selects a piece and makes a move, but not both of them. So for $D=3$ the player simulates all possible actions he can perform, all possible counteractions to these actions and all possible counteractions to the counteractions. We use $\alpha$-$\beta$-pruning in order to reduce the number of nodes being evaluated.
+The MinMax-D Player looks $D$ actions into future. One action means that only one player selects a piece and makes a move, but not both of them. So for $D=3$ the player simulates all possible actions he can perform, all possible counteractions to these actions and all possible counteractions to the counteractions. In order to reduce the number of nodes being evaluated we use $\alpha$-$\beta$-pruning.
 
 We use the Monte Carlo strategy before the seventh piece is set on the board.
 
-During the search, if the MinMax player comes upon a state, where the game is either won, lost or tied it's easy to evaluate such a state. But when a leaf in the search tree is a intermediate state, it has to be evaluated otherwise.
+If the MinMax player comes upon a state, where the game is either won, lost or tied it's trivial to say that this state is good or bad. But when a leaf in the search tree is an intermediate state, it has to be evaluated otherwise.
 \subsection{Evaluation functions}
-In order to test the further evaluation functions we used a trivial function that always return 0 regardless of the state of the board. A MinMax-D Player with such an evaluation function behaves the like a Novice Player with $D$ actions foresight.
+In order to test the further evaluation functions we used a trivial function that always return 0 on an intermediate state regardless of the state itself. A MinMax-D Player with such an evaluation function behaves like a Novice Player with $D$ actions foresight. Below three evaluation functions are introduced.
 \subsubsection*{Almost Completed Attributes}
-This evaluation function determines how many attributes there are which are almost completed. For an almost completed attribute there must be a row with three pieces which have this attribute in common. Consider figure \ref{fig:almostCompletedRows}. Here, there are three almost completed attributes. The pieces in the row share the attribute \emph{BIG} and \emph{SOLID}, the pieces in the column are \emph{BLUE} and the diagonal consits of \emph{CIRCLULAR} pieces.
+This evaluation function determines how many attributes there are which are almost completed. For an almost completed attribute there must be a row with three pieces which have this attribute in common. Figure \ref{fig:almostCompletedRows} shows a board with three almost completed attributes. The pieces in the row share the attribute \emph{BIG} and \emph{SOLID}, the pieces in the column are \emph{BLUE} and the diagonal consists of \emph{CIRCLULAR} pieces.
 
 The evaluation function counts all almost completed attributes and returns this number.
 \begin{figure}[h]
@@ -54,7 +54,7 @@ Therefore, we don't only determine the number of completing pieces but also set 
 	h=\frac{\#~completing~pieces}{\#~remaining~pieces}*C
 \end{equation}
 
-Figure \ref{fig:relativeComparison} illustrates the implications that the equation \ref{equ:relativeEvaluationEquation} has. The evaluation function returns $h = 0.27$ for the left and $h = 0.5$ for the right board. That means that the right board is considered more desirable. The reason for this is, that the evaluation happens at a moment when the opponent has made a move. In the next step the opponent selects a piece for us. The right state in figure \ref{fig:relativeComparison} has less pieces that can't complete a row, which is good for us. 
+Figure \ref{fig:relativeComparison} illustrates the implications that the equation \ref{equ:relativeEvaluationEquation} has. The evaluation function returns $h = 0.27$ for the left and $h = 0.5$ for the right board. That means that the right board is considered more desirable. The reason for this is, that the evaluation happens at a moment when the opponent has made a move. In the next step the opponent selects a piece for us. The right state in figure \ref{fig:relativeComparison} has less pieces that can't complete a row. So this board is better for us than the left one. 
 \begin{figure}[h]
   \hspace*{-7mm}
   \begin{minipage}[b]{0.5\linewidth}
@@ -70,6 +70,6 @@ Figure \ref{fig:relativeComparison} illustrates the implications that the equati
   \label{fig:relativeComparison}
 \end{figure}
 \subsubsection*{Conclusion}
-To test the introduced heuristics we let them play against the trivial evaluation function which always returns 0. All of the heuristics described above were better then the trivial one which means that they indeed help to estimate a boards state and improve the performance of the MinMax Player.
+To test the introduced heuristics we let them play against the trivial evaluation function which always returns 0. All of the heuristics described above were better then the trivial one which means that they indeed help to estimate a board's state and improve the performance of the MinMax Player.
 
 A competition between the evaluation functions where all heuristics had to compete against each other has shown that the absolute completing pieces evaluation is the best. Therefore, the MinMax Player described in Chapter \ref{ch:evaluations} and \ref{ch:tournament} uses this evaluation function.

@@ -53,23 +53,25 @@ public class MinMaxAlphaBetaPlayer implements IPlayer {
 		int max = -INFINITE;
 		int current = max;
 		ArrayList<int[]> freePositions = board.getFreePositions();
+		// iterating through free positions on the board
 		for (int[] pos : freePositions) {
 			board.setPiece(piece, pos[0], pos[1]);
-			if (board.gameOver()) {
+			if (board.gameOver()) { // win
 				board.remove(pos[0], pos[1]);
 				if (depth == 0) {
 					bestAction = new Action(piece, pos[0], pos[1]);
 				}
 				max = WIN;
 				return max;
-			} else if (set.isEmpty()) {
+			} else if (set.isEmpty()) { // tie
 				if (depth == 0) {
 				}
-				current = 0;
-			} else if (depth == maxDepth) {
+				current = 0; 
+			} else if (depth == maxDepth) { // leaf
 				current = evaluation.evaluateBoard(board, set);
 			} else {
 				int opponentMax = -INFINITE;
+				// iterating through remaining pieces
 				for (int i = 0; i < set.size(); i++) {
 					Piece p = set.get(i);
 					set.remove(p);
@@ -90,7 +92,7 @@ public class MinMaxAlphaBetaPlayer implements IPlayer {
 					bestAction = new Action(piece, pos[0], pos[1]);
 				}
 				if (current >= beta) {
-					return current;
+					return current; // pruning
 				}
 				max = current;
 				if (current > alpha) {
@@ -105,20 +107,22 @@ public class MinMaxAlphaBetaPlayer implements IPlayer {
 		int min = INFINITE;
 		int current = min;
 		ArrayList<int[]> freePositions = board.getFreePositions();
+		// iterating through free positions on the board
 		for (int[] pos : freePositions) {
 			board.setPiece(piece, pos[0], pos[1]);
-			if (board.gameOver()) {
+			if (board.gameOver()) { // win
 				board.remove(pos[0], pos[1]);
 				min = -WIN;
 				return min;
-			} else if (set.isEmpty()) {
+			} else if (set.isEmpty()) { // tie
 				if (depth == 0) {
 				}
 				current = 0;
-			} else if (depth == maxDepth) {
+			} else if (depth == maxDepth) { // leaf
 				current = - evaluation.evaluateBoard(board, set);
 			} else {
 				int opponentMin = INFINITE;
+				// iterating through remaining pieces
 				for (int i = 0; i < set.size(); i++) {
 					Piece p = set.get(i);
 					set.remove(p);
@@ -133,7 +137,7 @@ public class MinMaxAlphaBetaPlayer implements IPlayer {
 			board.remove(pos[0], pos[1]);
 			if (current < min) {
 				if (current <= alpha) {
-					return current;
+					return current; // pruning
 				}
 				min = current;
 				if (current < beta) {
@@ -148,82 +152,4 @@ public class MinMaxAlphaBetaPlayer implements IPlayer {
 	public String toString() {
 		return "Min/Max Player with alpha/beta pruning (depth: " + maxDepth + ")";
 	}
-	
-	public static void main(String[] argss) throws Exception {
-//		Board board = new Board();
-//		board.setPiece(Piece.stringToPeace("(r*)"), 1, 0);
-//		board.setPiece(Piece.stringToPeace("(B*)"), 2, 0);
-//		board.setPiece(Piece.stringToPeace("(r)"), 3, 0);
-//		
-//		board.setPiece(Piece.stringToPeace("(R)"), 1, 1);
-//		board.setPiece(Piece.stringToPeace("R"), 2, 1);
-//		
-//		board.setPiece(Piece.stringToPeace("R*"), 1, 2);
-//		
-//		Set set = new Set();
-//		set.remove(Piece.stringToPeace("(r*)"));
-//		set.remove(Piece.stringToPeace("(B*)"));
-//		set.remove(Piece.stringToPeace("(r)"));
-//		set.remove(Piece.stringToPeace("(R)"));
-//		set.remove(Piece.stringToPeace("R"));
-//		set.remove(Piece.stringToPeace("R*"));
-//
-//		Piece piece = Piece.stringToPeace("b*");
-//		set.remove(piece);
-//		MinmaxPlayer player = new MinmaxPlayer(4, new TestEvaluation());
-//		
-//		System.out.println(board);
-//		Action action = player.makeMove(board, set, piece);
-//		board.setPiece(piece, action.x, action.y);
-//		set.remove(piece);
-//		System.out.println(board);
-		
-		
-		Board board = new Board();
-		board.setPiece(Piece.stringToPeace("(b*)"), 0, 0);
-		board.setPiece(Piece.stringToPeace("r"), 1, 0);
-		board.setPiece(Piece.stringToPeace("B"), 2, 0);
-		board.setPiece(Piece.stringToPeace("(r)"), 3, 0);
-		
-		board.setPiece(Piece.stringToPeace("(B*)"), 0, 1);
-		board.setPiece(Piece.stringToPeace("R*"), 2, 1);
-		board.setPiece(Piece.stringToPeace("R"), 3, 1);
-
-		board.setPiece(Piece.stringToPeace("B*"), 0, 2);
-		board.setPiece(Piece.stringToPeace("b*"), 2, 2);
-
-		board.setPiece(Piece.stringToPeace("(R)"), 0, 3);
-		board.setPiece(Piece.stringToPeace("(r*)"), 2, 3);
-		
-		Set set = new Set();
-		set.remove(Piece.stringToPeace("(b*)"));
-		set.remove(Piece.stringToPeace("r"));
-		set.remove(Piece.stringToPeace("B"));
-		set.remove(Piece.stringToPeace("(r)"));
-		
-		set.remove(Piece.stringToPeace("(B*)"));
-		set.remove(Piece.stringToPeace("R*"));
-		set.remove(Piece.stringToPeace("R"));
-		
-		set.remove(Piece.stringToPeace("B*"));
-		set.remove(Piece.stringToPeace("b*"));
-		
-		set.remove(Piece.stringToPeace("(R)"));
-		set.remove(Piece.stringToPeace("(r*)"));
-
-		Piece piece = Piece.stringToPeace("(b)");
-		set.remove(piece);
-		MinMaxAlphaBetaPlayer player = new MinMaxAlphaBetaPlayer(2, new TestEvaluation());
-		
-		System.out.println(board);
-		Action action = player.makeMove(board, set, piece);
-		board.setPiece(piece, action.x, action.y);
-		set.remove(piece);
-		System.out.println(board);
-		System.out.println(player + " chooses from: " + set);
-		Piece piece2 = player.choosePiece(board, set);
-		System.out.println(piece2);
-		
-	}
-
 }

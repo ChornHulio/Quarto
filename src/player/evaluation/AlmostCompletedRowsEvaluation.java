@@ -11,18 +11,18 @@ public class AlmostCompletedRowsEvaluation implements IEvaluation{
 
 	@Override
 	public int evaluateBoard(Board board, Set set){
-		return - almostCompletedRows(board);
+		return - almostCompletedAttributes(board);
 	}
 	
-	public int almostCompletedRows(Board board){
+	public int almostCompletedAttributes(Board board){
 		ArrayList<Piece> row;
-		int almostCompletedRows = 0;
+		int almostCompletedAttributes = 0;
 		for (int i = 0; i < 4; i++) {
 			row = new ArrayList<Piece>();
 			for (int j = 0; j < 4; j++) {
 				row.add(board.get(j, i)); // rows
 			}
-			almostCompletedRows += sameAttributes(row);
+			almostCompletedAttributes += sameAttributes(row);
 		}
 
 		for (int i = 0; i < 4; i++) {
@@ -30,7 +30,7 @@ public class AlmostCompletedRowsEvaluation implements IEvaluation{
 			for (int j = 0; j < 4; j++) {
 				row.add(board.get(i, j)); // columns
 			}
-			almostCompletedRows += sameAttributes(row);
+			almostCompletedAttributes += sameAttributes(row);
 		}
 		
 
@@ -38,14 +38,14 @@ public class AlmostCompletedRowsEvaluation implements IEvaluation{
 		for (int i = 0; i < 4; i++) {
 			row.add(board.get(i, i)); // 1. diagonal
 		}
-		almostCompletedRows += sameAttributes(row);
+		almostCompletedAttributes += sameAttributes(row);
 		
 		row = new ArrayList<Piece>();
 		for (int i = 0; i < 4; i++) {
 			row.add(board.get(3-i, i)); // 2. diagonal
 		}
-		almostCompletedRows += sameAttributes(row);
-		return almostCompletedRows;
+		almostCompletedAttributes += sameAttributes(row);
+		return almostCompletedAttributes;
 	}
 	
 	private int sameAttributes(ArrayList<Piece> row){

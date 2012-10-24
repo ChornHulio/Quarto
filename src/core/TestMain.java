@@ -6,7 +6,7 @@ import core.logger.*;
 
 public class TestMain {
 
-	private static int rounds = 1000; // default
+	private static int rounds = 100; // default
 	private static IPlayer[] players = new IPlayer[2];
 	private static ILogger logger = new QuietLogger();
 //	private static ILogger logger = new VerboseLogger();
@@ -16,7 +16,7 @@ public class TestMain {
 //		players[count++] = new MinMaxPlayer(2, new CompletingPiecesEvaluationAbsolute());
 //		players[count++] = new MinMaxPlayer(2, new CompletingPiecesEvaluationRelative());
 //		players[count++] = new MinMaxAlphaBetaPlayer(2, new SimpleEvaluation());
-		players[count++] = new MinMaxAlphaBetaPlayer(2, new TestEvaluation());
+		players[count++] = new MinMaxAlphaBetaPlayer(2, new CompletingPiecesEvaluationAbsolute());
 		players[count++] = new MinMaxAlphaBetaPlayer(2, new CompletingPiecesEvaluationRelative());
 //		players[count++] = new NovicePlayer();
 

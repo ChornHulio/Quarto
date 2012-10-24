@@ -74,24 +74,4 @@ public class CompletingPiecesEvaluationAbsolute implements IEvaluation{
 		}
 		return completingPieces;
 	}
-	
-	public static void main(String[] args) {
-
-		Board board = new Board();
-		board.setPiece(Piece.stringToPeace("B"), 1, 0);
-		board.setPiece(Piece.stringToPeace("R*"), 2, 0);
-		board.setPiece(Piece.stringToPeace("(B*)"), 3, 0);
-		
-		Set set = new Set();
-		set.remove(Piece.stringToPeace("B"));
-		set.remove(Piece.stringToPeace("R*"));
-		set.remove(Piece.stringToPeace("(B*)"));
-
-		Piece piece = Piece.stringToPeace("(b)");
-		set.remove(piece);
-		CompletingPiecesEvaluationAbsolute eval = new CompletingPiecesEvaluationAbsolute();
-		System.out.println(board);
-		System.out.println(set);
-		System.out.println(eval.almostCompletedRows(board, set));
-	}
 }
