@@ -1,5 +1,33 @@
 \chapter{Player Evaluations}
-\section{Random Player}
-\section{Novice Player}
-\section{Monte Carlo Player}
-\section{MinMax-D Player}
+\label{ch:evaluations}
+To evaluate the player strategies we simulated 1000 games per test case.
+\subsubsection*{Random Player vs. Novice Player}
+\begin{table}[h]
+	\centering
+	\begin{tabular}[h]{l|l|l}
+		\textbf{Player} & \textbf{Wins} & \textbf{Ties}\\
+		\hline
+		Random Player & 21 & \multirow{2}{*}{3}	\\
+		Novice Player & 976 &	\\
+	\end{tabular}
+\end{table}
+\subsubsection*{Novice Player vs. Monte Carlo Player}
+\begin{table}[h]
+	\centering
+	\begin{tabular}[h]{l|l|l}
+		\textbf{Player} & \textbf{Wins} & \textbf{Ties}\\
+		\hline
+		Novice Player & 99 & \multirow{2}{*}{6}	\\
+		Monte Carlo Player & 895 &	\\
+	\end{tabular}
+\end{table}
+\subsubsection*{Novice Player vs. MinMax-3 Player}
+\begin{table}[h]
+	\centering
+	\begin{tabular}[h]{l|l|l}
+		\textbf{Player} & \textbf{Wins} & \textbf{Ties}\\
+		\hline
+		Novice Player & 34 & \multirow{2}{*}{14}	\\
+		MinMax-3 Player & 952 &	\\
+	\end{tabular}
+\end{table}
