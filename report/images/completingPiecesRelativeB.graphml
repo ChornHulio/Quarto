@@ -222,7 +222,7 @@
       <data key="d5"/>
       <data key="d6">
         <y:ImageNode>
-          <y:Geometry height="67.0" width="72.0" x="361.5" y="350.5"/>
+          <y:Geometry height="67.0" width="72.0" x="180.0" y="192.0"/>
           <y:Fill color="#CCCCFF" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
           <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" hasText="false" height="4.0" modelName="sandwich" modelPosition="s" textColor="#000000" visible="true" width="4.0" x="34.0" y="71.0"/>
