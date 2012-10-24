@@ -13,9 +13,12 @@ public class MinMaxAlphaBetaPlayer implements IPlayer {
 	private int maxDepth;
 	Piece nextPieceToChoose;
 
-	final int minmaxStartingFromPiece = 7;
+	final int minmaxStartingFromPiece = 6;
 	
 	final int monteCarloSimulations = 1000;
+	
+	final int WIN = 1000;
+	final int INFINITE = 9999;
 
 	private Action bestAction;
 	private IEvaluation evaluation;
@@ -38,7 +41,7 @@ public class MinMaxAlphaBetaPlayer implements IPlayer {
 	@Override
 	public Action makeMove(Board board, Set set, Piece piece) throws Exception {
 		if (set.size() <= 16 - minmaxStartingFromPiece) {
-			max(board, set, piece, 0, -999, 999);
+			max(board, set, piece, 0, -INFINITE, INFINITE);
 			return bestAction;
 		} else {
 //			return new MonteCarloParallelPlayer(monteCarloSimulations).makeMove(board, set, piece);
@@ -47,7 +50,7 @@ public class MinMaxAlphaBetaPlayer implements IPlayer {
 	}
 
 	private int max(Board board, Set set, Piece piece, int depth, int alpha, int beta) {
-		int max = -999;
+		int max = -INFINITE;
 		int current = max;
 		ArrayList<int[]> freePositions = board.getFreePositions();
 		for (int[] pos : freePositions) {
@@ -57,7 +60,7 @@ public class MinMaxAlphaBetaPlayer implements IPlayer {
 				if (depth == 0) {
 					bestAction = new Action(piece, pos[0], pos[1]);
 				}
-				max = 100;
+				max = WIN;
 				return max;
 			} else if (set.isEmpty()) {
 				if (depth == 0) {
@@ -66,7 +69,7 @@ public class MinMaxAlphaBetaPlayer implements IPlayer {
 			} else if (depth == maxDepth) {
 				current = evaluation.evaluateBoard(board, set);
 			} else {
-				int opponentMax = -999;
+				int opponentMax = -INFINITE;
 				for (int i = 0; i < set.size(); i++) {
 					Piece p = set.get(i);
 					set.remove(p);
@@ -99,23 +102,23 @@ public class MinMaxAlphaBetaPlayer implements IPlayer {
 	}
 
 	private int min(Board board, Set set, Piece piece, int depth, int alpha, int beta) {
-		int min = 999;
+		int min = INFINITE;
 		int current = min;
 		ArrayList<int[]> freePositions = board.getFreePositions();
 		for (int[] pos : freePositions) {
 			board.setPiece(piece, pos[0], pos[1]);
 			if (board.gameOver()) {
 				board.remove(pos[0], pos[1]);
-				min = -100;
+				min = -WIN;
 				return min;
 			} else if (set.isEmpty()) {
 				if (depth == 0) {
 				}
 				current = 0;
 			} else if (depth == maxDepth) {
-				current = evaluation.evaluateBoard(board, set);
+				current = - evaluation.evaluateBoard(board, set);
 			} else {
-				int opponentMin = 999;
+				int opponentMin = INFINITE;
 				for (int i = 0; i < set.size(); i++) {
 					Piece p = set.get(i);
 					set.remove(p);

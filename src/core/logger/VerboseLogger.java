@@ -6,6 +6,10 @@ import core.Board;
 import core.Piece;
 import core.Set;
 
+/**
+ * Prints all the moves and pieces being chosen and the state of the game after each move.
+ *
+ */
 public class VerboseLogger implements ILogger {
 
 	@Override
@@ -24,13 +28,14 @@ public class VerboseLogger implements ILogger {
 	}
 
 	@Override
-	public void logGameOver(IPlayer player, int winner) {
+	public void logGameOver(IPlayer player, int winner, Board board) {
 		if (winner == 2) {
 			System.out.println("Draw.");
 		} else {
 			System.out.println(player + " ( " + winner + " ) " + " wins.");
 		}
-
+		System.out.println("Final board state:");
+		System.out.println(board);
 	}
 
 	@Override

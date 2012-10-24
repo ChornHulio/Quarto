@@ -1,0 +1,13 @@
+\BOOKMARK [0][-]{chapter.1}{1 Player Strategies}{}
+\BOOKMARK [1][-]{section.1.1}{1.1 Random Player}{chapter.1}
+\BOOKMARK [1][-]{section.1.2}{1.2 Novice Player}{chapter.1}
+\BOOKMARK [1][-]{section.1.3}{1.3 Monte Carlo Player}{chapter.1}
+\BOOKMARK [1][-]{section.1.4}{1.4 MinMax-D Player}{chapter.1}
+\BOOKMARK [0][-]{chapter.2}{2 Player Evaluations}{}
+\BOOKMARK [1][-]{section.2.1}{2.1 Random Player}{chapter.2}
+\BOOKMARK [1][-]{section.2.2}{2.2 Novice Player}{chapter.2}
+\BOOKMARK [1][-]{section.2.3}{2.3 Monte Carlo Player}{chapter.2}
+\BOOKMARK [1][-]{section.2.4}{2.4 MinMax-D Player}{chapter.2}
+\BOOKMARK [0][-]{chapter.3}{3 Tournament}{}
+\BOOKMARK [1][-]{section.3.1}{3.1 Performance}{chapter.3}
+\BOOKMARK [1][-]{section.3.2}{3.2 Experiences}{chapter.3}

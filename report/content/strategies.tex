@@ -1,0 +1,33 @@
+\chapter{Player Strategies}
+In this section the players' strategies are briefly described. For the whole document there are some definitions to be explained:
+\begin{itemize}
+	\item \textbf{Make move:} Placing a given piece on a cell of the board
+	\item \textbf{Select piece:} Choosing a piece for the opponent
+	\item \textbf{Perform action:} Making move first, then choosing a piece
+\end{itemize}
+\section{Random Player}
+The most trivial player. Performs his actions randomly with only one restriction: He can't make a move on a taken cell and he can't select a piece that has already been chosen.
+\section{Novice Player}
+Acts the same way as Random Player does, bit in cases, where he can make a move in order to win, he will make this move. The same applies to the chosen a piece, as he won't select a piece for his opponent that might make the opponent win with only one move. If there are no such pieces left, he chooses a piece randomly.
+\section{Monte Carlo Player}
+Every time this player has to perform an action, he simulates hundreds of games for each possible action he can perform. He chooses the action which has led to the most wins during the simulations. Usually, Monte Carlo simulations are totally random, but we used the Novice Player for the simulations instead. To speed the simulations up, they are performed parallely.
+\section{MinMax-D Player}
+The MinMax-D Player looks $D$ actions into future. One action means that only one player selects a piece and makes a move, but not both of them. So for $D=3$ the player simulates all possible actions he can perform, all possible counteractions to these actions and all possible counteractions to the counteractions. We use $\alpha$-$\beta$-pruning in order to reduce the number of nodes being evaluated.
+
+We use the Monte Carlo strategy before the seventh piece is set on the board.
+
+During the search, if the MinMax player comes upon a state, where the game is either won, lost or tied it's easy to evaluate such a state. But when a leaf in the search tree is a intermediate state, it has to be evaluated otherwise.
+\subsection{Evaluation functions}
+In order to test the further evaluation functions we used a trivial function that always return 0 regardless of the state of the board. A MinMax-D Player with such an evaluation function behaves the like a Novice Player with $D$ actions foresight.
+\subsubsection*{Almost Completed Rows}
+
+\subsubsection*{Completing Pieces: Absolute}
+\subsubsection*{Completing Pieces: Relative}
+
+%137	: Min/Max Player with alpha/beta pruning (depth: 2) // TestEvaluation
+%512	: Min/Max Player with alpha/beta pruning (depth: 2) // CompletingPiecesEvaluationAbsolute
+%351	: ties
+
+%481	: Min/Max Player with alpha/beta pruning (depth: 2) // TestEvaluation
+%408	: Min/Max Player with alpha/beta pruning (depth: 2) // CompletingPiecesEvaluationRelative
+%111	: ties

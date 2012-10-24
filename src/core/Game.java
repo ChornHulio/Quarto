@@ -24,6 +24,11 @@ public class Game {
 		this.logger = logger;
 	}
 
+	/**
+	 * If a game shouldn't be started from the initial but from an intermediate state.
+	 * @param board state of the board to start the game with
+	 * @param set state of the set to start the game with
+	 */
 	public Game(Board board, Set set) { // in order to simulate games
 		this.board = board;
 		this.set = set;
@@ -33,9 +38,20 @@ public class Game {
 		this.logger = new QuietLogger();
 	}
 
+	/**
+	 * Contains the main game loop
+	 * @return 0 = first player won, 1 = second player won, 2 = tie
+	 * @throws Exception
+	 */
 	public int play() throws Exception {
 		int turn = 0;
 		Piece firstPiece = null;
+		// The following if condition is needed to satisfy the GameMaster's protocol.
+		// At the very beginning of a game there are two options:
+		// 1) The game receives a piece from StdIn:
+		//    That means, that the game must reply with an action (= "we" are the second player)
+		// 2) The game receives "." from StdIn:
+		//    That means, that the game must reply with a piece (= "we" are the first player)
 		if (logger instanceof GMLogger) {
 			String firstInput = new Scanner(System.in).nextLine();
 			if (!firstInput.trim().equals(".")){
@@ -52,7 +68,7 @@ public class Game {
 		while (true) {
 			logger.logBoard(players[turn % 2], board, set);
 			Piece piece;
-			if (firstPiece != null) {
+			if (firstPiece != null) { // only used for GameMaster's mode
 				piece = firstPiece;
 				firstPiece = null;
 			} else {
@@ -64,7 +80,7 @@ public class Game {
 			logger.logAction(players[turn % 2], action);
 			checkMove(action);
 			if (gameOver(turn % 2)) {
-				logger.logGameOver(players[turn % 2], winner);
+				logger.logGameOver(players[turn % 2], winner, board);
 				return winner; // winner is set inside gameOver()
 			}
 		}

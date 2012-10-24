@@ -1,5 +1,9 @@
 package core;
 
+/**
+ * Action class containing a move (= x,y position) and a piece 
+ *
+ */
 public class Action {
 	
 	public Piece piece;

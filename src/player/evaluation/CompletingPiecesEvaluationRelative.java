@@ -72,7 +72,7 @@ public class CompletingPiecesEvaluationRelative implements IEvaluation{
 				}
 			}
 		}
-		final int normalizationFactor = 1000;
+		final int normalizationFactor = 100;
 		return completingPieces * normalizationFactor / set.size();
 	}
 	

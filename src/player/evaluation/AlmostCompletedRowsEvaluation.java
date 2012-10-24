@@ -7,7 +7,7 @@ import core.Board;
 import core.Piece;
 import core.Set;
 
-public class SimpleEvaluation implements IEvaluation{
+public class AlmostCompletedRowsEvaluation implements IEvaluation{
 
 	@Override
 	public int evaluateBoard(Board board, Set set){

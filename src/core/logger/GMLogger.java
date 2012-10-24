@@ -7,6 +7,18 @@ import core.Board;
 import core.Piece;
 import core.Set;
 
+/**
+ * Protocol for GameMaster:
+ * 
+ * b
+ * 1 2
+ * (R)
+ * 0 0
+ * B*
+ * 3 3
+ * ...
+ *
+ */
 public class GMLogger implements ILogger {
 
 	@Override
@@ -27,7 +39,7 @@ public class GMLogger implements ILogger {
 	}
 
 	@Override
-	public void logGameOver(IPlayer player, int winner) {
+	public void logGameOver(IPlayer player, int winner, Board board) {
 		if (winner == 2) {
 			System.out.println("Draw.");
 		} else {

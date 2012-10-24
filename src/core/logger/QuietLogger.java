@@ -6,7 +6,10 @@ import core.Board;
 import core.Piece;
 import core.Set;
 
-
+/**
+ * Logger for evaluating purposes
+ *
+ */
 public class QuietLogger implements ILogger {
 
 	@Override
@@ -19,7 +22,7 @@ public class QuietLogger implements ILogger {
 	public void logAction(IPlayer player, Action action) { }
 
 	@Override
-	public void logGameOver(IPlayer player, int winner) { }
+	public void logGameOver(IPlayer player, int winner, Board board) { }
 	
 	@Override
 	public void logDebug(String str) { }
